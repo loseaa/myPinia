@@ -15,6 +15,7 @@ export const useTodoStore = defineStore("todo2", {
     },
     deleteTodo(id: number) {
       this.todos = this.todos.filter((todo: any) => todo.id !== id);
+
     },
     toggleTodo(id: number) {
       this.todos = this.todos.map((todo: any) => {

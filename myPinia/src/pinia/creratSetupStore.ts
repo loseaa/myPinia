@@ -1,5 +1,6 @@
 import { effectScope, isReactive, isRef, reactive } from "vue"
-import { creatAPIs, isComputed } from "./tools"
+import { creatAPIs, isComputed, isFunction } from "./tools"
+import { onActionList, subscribe } from "./onAction"
 
 export function creatSetupStore(id: string, setup: any, pinia: any) {
     pinia.state.value[id]||(pinia.state.value[id]={})
@@ -9,8 +10,38 @@ export function creatSetupStore(id: string, setup: any, pinia: any) {
         if((isRef(res[key])&&!isComputed(res[key]))||isReactive(res[key])){
             pinia.state.value[id][key]=res[key]
         }
+        if(isFunction(res[key])){
+            let fn=res[key]
+            
+            res[key]=function(...args:any[]){
+                let onErrorList:any=[]
+                let afterList:any=[]
+                let after=(fn:any)=>{
+                    afterList.push(fn)
+                }
+                let onError=(fn:any)=>{
+                    onErrorList.push(fn)
+                }
+                subscribe.run(onActionList,{
+                    name:key,
+                    store,
+                    after,
+                    onError
+                })
+                let res;
+                try{
+                    res=fn.apply(store,args)
+                    subscribe.run(afterList,res)
+                    return res
+                }catch(err){
+                    subscribe.run(onErrorList,err)
+                    throw err
+                }
+            }
+            
+        }
     }
-    let store
+    let store:any
     let scope
     // 设置父子作用域， effcetScope可用于停止响应式数据，更高级的用法
     

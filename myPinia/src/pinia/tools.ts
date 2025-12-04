@@ -1,6 +1,7 @@
 import { isRef } from "vue";
 import { creatSubscribe } from "./subscribe";
 import { creatPatch } from "./patch";
+import { creatOnAction } from "./onAction";
 
 export function normaliseOption(id: any, setup: any) {
     let _id;
@@ -40,6 +41,7 @@ export function creatAPIs(pinia:any,id:string,scope:any){
     return {
         $patch:creatPatch(pinia,id),
         $id:id,
-        $subscribe:creatSubscribe(pinia,id,scope)
+        $subscribe:creatSubscribe(pinia,id,scope),
+        $onAction:creatOnAction(),
     }
 }

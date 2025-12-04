@@ -21,10 +21,17 @@ import { useTodoStore } from '../store/todolist2'
 const todoStore = useTodoStore()
 console.log(todoStore);
 
-todoStore.$subscribe((mutation:any,state:any)=>{
-    console.log(mutation,state);
-})
 
+// todoStore.$onAction(({after,onError,name})=>{
+//   console.log(todoStore.todos);
+//   console.log(name);
+//   after((res:any)=>{
+//     console.log(todoStore.todos,res);
+//   })
+//   onError((err)=>{
+//     console.log(err);
+//   })
+// })
 
 
 let newTodoTitle = ref('')

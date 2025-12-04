@@ -7,10 +7,10 @@ import myCount2 from './components/count2.vue'
 
 <template>
   <div>
-    <myCount1></myCount1>
+    <!-- <myCount1></myCount1>
     <br>
     <myCount2></myCount2>
-    <br>
+    <br> -->
     <todolist></todolist>
     <br>
     <todolist2></todolist2>
