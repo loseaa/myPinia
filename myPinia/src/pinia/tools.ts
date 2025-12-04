@@ -1,4 +1,6 @@
 import { isRef } from "vue";
+import { creatSubscribe } from "./subscribe";
+import { creatPatch } from "./patch";
 
 export function normaliseOption(id: any, setup: any) {
     let _id;
@@ -32,4 +34,12 @@ export function isComputed(node: any) {
 }
 export function isObject(node: any) {
     return typeof node === 'object' && node !== null
+}
+
+export function creatAPIs(pinia:any,id:string,scope:any){
+    return {
+        $patch:creatPatch(pinia,id),
+        $id:id,
+        $subscribe:creatSubscribe(pinia,id,scope)
+    }
 }

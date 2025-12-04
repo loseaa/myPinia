@@ -30,7 +30,7 @@ export const useTodoStore = defineStore("todo2", {
     total() {
       return this.todos.length;
     },
-    doubleCount() {
+    doubleCount():any {
       return this.count * 2;
     },
   },

@@ -19,6 +19,11 @@
 import { ref } from 'vue'
 import { useTodoStore } from '../store/todolist'
 const todoStore = useTodoStore()
+console.log(todoStore);
+
+todoStore.$subscribe((mutation:any,state:any)=>{
+    console.log(mutation,state);
+})
 
 
 

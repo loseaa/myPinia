@@ -1,26 +1,24 @@
 import { computed, effectScope, reactive, toRefs } from "vue";
-import { creatPatch } from "./patch";
+import { creatReset } from "./reset";
+import { creatAPIs } from "./tools";
 
-function creatAPIs(pinia:any,id:string){
-    return {
-        $patch:creatPatch(pinia,id),
-        $id:id
-    }
-}
+
 
 export function creatOptionStore(id:string,option:any,pinia:any){
-    let store=reactive(creatAPIs(pinia,id))
+    let store
     let state=option.state()||{}
-    let scope=effectScope();
+    let scope:any
     pinia.state.value[id]=toRefs(reactive(state))
     let result=pinia.scope.run(()=>{
+        scope=effectScope();
         scope.run(()=>{
+            store=reactive(creatAPIs(pinia,id,scope))
             return makeUpStore(pinia,store,option,id)
         })
     })
-
     pinia.store.set(id,store)
-    Object.assign(store,result)
+    Object.assign(store!,result)
+    pinia.store.get(id).$reset=creatReset(option.state,store);
 }
 
 function makeUpStore(pinia:any,store:any,option:any,id:string){

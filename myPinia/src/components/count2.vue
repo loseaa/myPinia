@@ -4,12 +4,14 @@
         <p>{{ store.count }}</p>
         <p>{{ store.doubleCount }}</p>
         <button @click="handlechange">CHANGE</button>
+        <button @click="store.$reset">RESET</button>
     </div>
 </template>
 
 <script setup>
 import { useTodoStore } from '../store/todolist2'
 const store = useTodoStore()
+console.log(store);
 function handlechange() {
     store.$patch({
         count: 500

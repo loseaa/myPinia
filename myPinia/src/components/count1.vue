@@ -4,6 +4,7 @@
         <p>{{ store.count }}</p>
         <p>{{ store.doubleCount }}</p>
         <button @click="handlechange">CHANGE</button>
+        
     </div>
 </template>
 

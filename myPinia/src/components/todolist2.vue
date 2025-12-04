@@ -21,6 +21,11 @@ import { useTodoStore } from '../store/todolist2'
 const todoStore = useTodoStore()
 console.log(todoStore);
 
+todoStore.$subscribe((mutation:any,state:any)=>{
+    console.log(mutation,state);
+})
+
+
 
 let newTodoTitle = ref('')
 function addTodo() {
