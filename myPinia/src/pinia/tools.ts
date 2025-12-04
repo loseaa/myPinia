@@ -30,3 +30,6 @@ export function isFunction(node: any) {
 export function isComputed(node: any) {
     return isRef(node) && (node as any).effect
 }
+export function isObject(node: any) {
+    return typeof node === 'object' && node !== null
+}

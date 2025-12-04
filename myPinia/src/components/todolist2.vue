@@ -4,7 +4,7 @@
     <h1>todolist</h1>
     <input type="text" v-model="newTodoTitle" placeholder="添加新任务">
     <button @click="addTodo">添加任务</button>
-    <p>{{ todoStore.total }}</p>
+    <p>sss{{ todoStore.total }}</p>
     <ul>
       <li v-for="todo in todoStore.todos" :key="todo.id">
         <input type="checkbox" v-bind:checked="todo.completed" @change="todoStore.toggleTodo(todo.id)">
@@ -17,9 +17,9 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useTodoStore } from '../store/todolist'
+import { useTodoStore } from '../store/todolist2'
 const todoStore = useTodoStore()
-
+console.log(todoStore);
 
 
 let newTodoTitle = ref('')
