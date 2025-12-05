@@ -2,6 +2,8 @@ import { isRef } from "vue";
 import { creatSubscribe } from "./subscribe";
 import { creatPatch } from "./patch";
 import { creatOnAction } from "./onAction";
+import { creatDispose } from "./dispose";
+import { creatState } from "./creatState";
 
 export function normaliseOption(id: any, setup: any) {
     let _id;
@@ -43,5 +45,15 @@ export function creatAPIs(pinia:any,id:string,scope:any){
         $id:id,
         $subscribe:creatSubscribe(pinia,id,scope),
         $onAction:creatOnAction(),
+        $dispose:creatDispose(pinia,id,scope),
     }
+}
+
+export function runPlugins(pinia:any,store:any) {
+    pinia.plugins.forEach((plugin: any) => {
+        let res=plugin({store});
+        if(res){
+            Object.assign(store,res)
+        }
+    });
 }

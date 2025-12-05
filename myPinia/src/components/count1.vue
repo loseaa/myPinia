@@ -16,10 +16,12 @@ function handlechange() {
     //     count: 500
     // })
     store.$patch((state) => {
-        console.log(state);
+        // console.log(state);
         state.count = 500;
     })
 }
+
+
 
 </script>
 

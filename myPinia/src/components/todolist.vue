@@ -4,6 +4,7 @@
     <h1>todolist</h1>
     <input type="text" v-model="newTodoTitle" placeholder="添加新任务">
     <button @click="addTodo">添加任务</button>
+    <button @click="todoStore.$dispose">清除响应式</button>
     <p>{{ todoStore.total }}</p>
     <ul>
       <li v-for="todo in todoStore.todos" :key="todo.id">
@@ -19,7 +20,31 @@
 import { ref } from 'vue'
 import { useTodoStore } from '../store/todolist'
 const todoStore = useTodoStore()
-console.log(todoStore);
+// console.log(todoStore);
+
+// todoStore.$subscribe((mutation,state)=>{
+//   console.log(mutation,state);
+// })
+// console.log(todoStore.$state);
+
+setTimeout(() => {
+  todoStore.$state={
+  todos:[
+    {
+      id: 1,
+      title: '学习 Vue 3',
+      completed: false
+    },
+    {
+      id: 2,
+      title: '完成项目',
+      completed: true
+    }
+  ],
+  total: 2
+}
+}, 2000);
+
 
 // todoStore.$onAction(({after,onError,name})=>{
 //   console.log(todoStore.todos);
@@ -31,6 +56,7 @@ console.log(todoStore);
 //     console.log(err);
 //   })
 // })
+
 
 let newTodoTitle = ref('')
 function addTodo() {

@@ -5,6 +5,7 @@
     <input type="text" v-model="newTodoTitle" placeholder="添加新任务">
     <button @click="addTodo">添加任务</button>
     <p>sss{{ todoStore.total }}</p>
+    <button @click="todoStore.$dispose">清除响应式</button>
     <ul>
       <li v-for="todo in todoStore.todos" :key="todo.id">
         <input type="checkbox" v-bind:checked="todo.completed" @change="todoStore.toggleTodo(todo.id)">
@@ -19,7 +20,7 @@
 import { ref } from 'vue'
 import { useTodoStore } from '../store/todolist2'
 const todoStore = useTodoStore()
-console.log(todoStore);
+// console.log(todoStore);
 
 
 // todoStore.$onAction(({after,onError,name})=>{

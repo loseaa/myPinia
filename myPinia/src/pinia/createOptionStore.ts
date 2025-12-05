@@ -1,8 +1,9 @@
 import { computed, effectScope, reactive, toRefs } from "vue";
 import { creatReset } from "./reset";
-import { creatAPIs } from "./tools";
+import { creatAPIs, runPlugins } from "./tools";
 import { subscribe } from "./onAction";
 import { onActionList } from "./onAction";
+import { creatState } from "./creatState";
 
 export function creatOptionStore(id: string, option: any, pinia: any) {
   let store;
@@ -12,12 +13,14 @@ export function creatOptionStore(id: string, option: any, pinia: any) {
   let result = pinia.scope.run(() => {
     scope = effectScope();
     scope.run(() => {
-      store = reactive(creatAPIs(pinia, id, scope));
+      store = reactive(creatAPIs(pinia, id, pinia.scope));
       return makeUpStore(pinia, store, option, id);
     });
   });
   pinia.store.set(id, store);
   Object.assign(store!, result);
+  creatState(pinia,id)  
+  runPlugins(pinia,store);
   pinia.store.get(id).$reset = creatReset(option.state, store);
 }
 
@@ -28,7 +31,7 @@ function makeUpStore(pinia: any, store: any, option: any, id: string) {
   Object.assign(store, state);
   actions = fixAction(actions, store);
   getters = fixGetter(getters, store);
-  Object.assign(store, actions, toRefs(getters));
+  Object.assign(store, actions, getters);
   return store;
 }
 
@@ -69,12 +72,10 @@ function fixAction(actions: any, store: any) {
 
 function fixGetter(getters: any, store: any) {
   getters = getters || {};
-
-  console.log(store);
   for (let key in getters) {
     let getter = getters[key];
     if (typeof getter === "function") {
-      getters[key] = computed(() => getter.apply(store));
+        getters[key] = computed(() => getter.apply(store));
     }
   }
   return getters;

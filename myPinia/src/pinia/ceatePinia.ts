@@ -5,7 +5,10 @@ export function createPinia() {
   let scope = effectScope();
   let store = new Map();
   let state = scope.run(() => ref({}));
-
+  let plugins:any = [];
+  function use(cb:any) {
+    plugins.push(cb);
+  }
   return {
     store,
     state,
@@ -14,5 +17,7 @@ export function createPinia() {
         // 提供pinia实例
       app.provide(PINIA, this);
     },
+    use,
+    plugins
   };
 }

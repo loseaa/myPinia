@@ -7,6 +7,12 @@ import { createPinia } from './pinia'
 
 const pinia = createPinia()
 console.log(pinia);
-
+pinia.use((info:any)=>{
+    console.log(info.store);
+    info.store.$subscribe((mutation,state)=>{
+        console.log(mutation,state);
+    })
+    return {a:1231}
+})
 
 createApp(App).use(pinia).mount('#app')
